@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invisible Clicks - Clickjacking Demo</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="container">
+    <h1>Invisible Clicks</h1>
+    <p class="subtitle">クリックジャッキングを体験・理解するための教育用デモです</p>
+  </header>
+
+  <main class="container">
+    <!-- タブナビゲーション -->
+    <div class="tabs">
+      <button class="tab-button active" data-tab="learn">📚 基礎学習</button>
+      <button class="tab-button" data-tab="demo">🎯 攻撃体験デモ</button>
+      <button class="tab-button" data-tab="theory">🧠 攻撃理論</button>
+      <button class="tab-button" data-tab="defense">🛡️ 対策</button>
+    </div>
+
+    <!-- タブコンテンツ -->
+    <div class="tab-content">
+      <!-- 基礎学習タブ -->
+      <div id="learn" class="tab-panel active">
+        <div class="card">
+          <h2>クリックジャッキングとは？</h2>
+          <p>クリックジャッキング（Clickjacking）は、Webサイトのユーザーインターフェースを悪用する攻撃手法です。</p>
+          
+          <div class="info-box">
+            <h3>🎭 攻撃の仕組み</h3>
+            <p>攻撃者は透明または不透明なレイヤーを使用して、ユーザーが意図しない操作を実行させます。</p>
+            <ul>
+              <li>透明なiframeやボタンを重ねる</li>
+              <li>見た目は無害なボタンの下に危険な操作を配置</li>
+              <li>ユーザーのクリックを意図しない操作に誘導</li>
+            </ul>
+          </div>
+
+          <div class="info-box">
+            <h3>⚠️ 被害例</h3>
+            <ul>
+              <li>SNSの「いいね」や「フォロー」を無断で実行</li>
+              <li>カメラやマイクの権限を無断で許可</li>
+              <li>金銭的な取引の承認</li>
+              <li>個人情報の削除や変更</li>
+            </ul>
+          </div>
+
+          <div class="info-box">
+            <h3>📊 攻撃の種類</h3>
+            <ul>
+              <li><strong>古典的クリックジャッキング（Classic Clickjacking）:</strong> 透明なiframeを使用</li>
+              <li><strong>ライクジャッキング（Likejacking）:</strong> SNSの「いいね」ボタンを悪用</li>
+              <li><strong>カーソルジャッキング（Cursorjacking）:</strong> マウスカーソルの位置を偽装</li>
+              <li><strong>ファイルジャッキング（Filejacking）:</strong> ファイルアップロードを悪用</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 攻撃体験デモタブ -->
+      <div id="demo" class="tab-panel">
+        <div class="card demo-note">
+          <h2>💡 デモの使い方</h2>
+          <ol>
+            <li>左パネル（攻撃者が作った偽サイト）の「👍 いいね！」ボタンをクリックしてみてください</li>
+            <li>透明オーバーレイが有効な場合、実際には右パネル（被害者のサイト）の危険操作が実行されます</li>
+            <li>下のトグルスイッチで攻撃の有効/無効を切り替えて挙動の違いを確認できます</li>
+          </ol>
+          <p class="note"><strong>⚠️ 注意：</strong>これは教育目的の安全なデモです。実際の攻撃は行われません。</p>
+        </div>
+
+        <div class="controls">
+          <h3>攻撃方法を選択：</h3>
+          <label class="toggle">
+            <input type="radio" name="attackMethod" id="attackOverlay" checked />
+            <span>🔴 透明オーバーレイ攻撃</span>
+          </label>
+          <label class="toggle">
+            <input type="radio" name="attackMethod" id="attackFrame" />
+            <span>📺 iframe埋め込み攻撃</span>
+          </label>
+          <label class="toggle">
+            <input type="radio" name="attackMethod" id="attackOff" />
+            <span>⚫ 攻撃を無効化</span>
+          </label>
+        </div>
+
+        <div class="grid">
+          <div class="card" id="attackerCard">
+            <h2>📱 攻撃者が作った偽UIをかぶせた状態（ターゲットに見える部分）</h2>
+            <p>一見普通のソーシャルメディアのUI。ユーザーは無害な「いいね」を押したつもりですが...</p>
+
+            <div class="attacker-area">
+              <button id="fake-like" class="btn">👍 いいね！</button>
+              <!-- 透明オーバーレイ（被害側「危険ボタン」へ誘導） -->
+              <button id="invisible-overlay" aria-label="invisible overlay"></button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>🏦 透明要素で隠される正規UI（ターゲットに隠された部分）</h2>
+            <p>攻撃者が透明オーバーレイで隠している危険な操作につながるUI。ユーザーには見えないがクリック可能になる。</p>
+
+            <div class="victim-area" id="victimArea">
+              <button id="danger" class="btn danger">⚠ 秘密情報を削除</button>
+            </div>
+
+            <div id="frameWrap" class="frame-wrap hidden">
+              <div class="frame-header">（iframe埋め込みの例）</div>
+              <div class="frame-body">
+                <button class="btn danger" data-frame="danger">⚠ 秘密情報を削除（iframe内）</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="log" id="log"></div>
+      </div>
+
+      <!-- 攻撃理論タブ -->
+      <div id="theory" class="tab-panel">
+        <div class="card">
+          <h2>クリックジャッキング攻撃の理論</h2>
+          
+          <details class="accordion">
+            <summary>🔬 技術的メカニズム</summary>
+            <div class="accordion-content">
+            <p>クリックジャッキングは、Webブラウザーのレンダリング機能とユーザーの認知バイアスを悪用します。</p>
+            
+            <div class="code-example">
+              <h4>1. Z-Indexとレイヤー構造</h4>
+              <p class="note">クリックジャッキングの基本原理です。CSSのZ-Indexを使って、ユーザーが見える「偽のボタン」の上に、透明な「危険なボタン」を重ねます。ユーザーがクリックすると、実際には上層の危険なボタンが反応します。</p>
+              <pre><code>/* 攻撃者のページ */
+.malicious-container {
+  position: relative;
+  width: 500px;
+  height: 300px;
+}
+
+.fake-button {
+  position: absolute;
+  z-index: 1;  /* 下層 */
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+}
+
+.invisible-iframe {
+  position: absolute;
+  z-index: 2;  /* 上層 */
+  opacity: 0;  /* 完全に透明 */
+  width: 100%;
+  height: 100%;
+}</code></pre>
+              <p class="note">ユーザーには「無害なボタン」が見えますが、実際のクリックは透明なiframe内の別のボタンを押すことになります。</p>
+            </div>
+
+            <div class="code-example">
+              <h4>2. 透明度とポインターイベント</h4>
+              <p class="note">攻撃者はさまざまなCSSテクニックで要素を透明にします。完全に透明（opacity: 0）にしてもクリックは可能です。pointer-eventsプロパティでクリックイベントの有効無効を制御できますが、これを悪用して攻撃が行われます。</p>
+              <pre><code>/* CSSの透明度プロパティ */
+.attack-methods {
+  /* 方法1: opacity */
+  opacity: 0.0001;  /* ほぼ見えないがクリック可能 */
+  
+  /* 方法2: rgba */
+  background: rgba(255, 255, 255, 0);
+  
+  /* 方法3: filter */
+  filter: alpha(opacity=0);
+}
+
+/* pointer-eventsの制御 */
+.clickable-invisible {
+  opacity: 0;
+  pointer-events: auto;  /* クリックを受け付ける */
+}
+
+.visible-but-not-clickable {
+  opacity: 1;
+  pointer-events: none;  /* クリックを無視 */
+}</code></pre>
+            </div>
+
+            <div class="code-example">
+              <h4>3. iframeの悪用パターン</h4>
+              <p class="note">攻撃者は魅力的な「偽のボタン」でユーザーの注意を引き、その下に透明な被害サイトのiframeを配置します。ユーザーが「無料動画を再生」をクリックしたつもりでも、実際には透明なiframe内の危険な操作（送金、設定変更など）をクリックしてしまいます。</p>
+              <pre><code><!-- 攻撃コードの例 -->
+<div class="attack-container">
+  <!-- 偽のコンテンツ -->
+  <button class="fake-play-button">
+    🎬 無料動画を再生
+  </button>
+  
+  <!-- 透明なiframe（被害サイト） -->
+  <!-- 攻撃コードの例（実際には存在しないダミーURL） -->
+  <iframe 
+    src="[REDACTED: 危険な被害サイトURL]"
+    style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 10;
+    "
+    title="攻撃者の透明なiframe例"
+  ></iframe>
+</div></code></pre>
+            </div>
+            </div>
+          </details>
+
+          <details class="accordion">
+            <summary>🎭 高度な攻撃テクニック</summary>
+            <div class="accordion-content">
+            
+            <div class="info-box">
+              <h4>1. ダブルクリックジャッキング</h4>
+              <p>一度目のクリックでボタンを表示し、二度目のクリックで実際の操作を実行させる手法。</p>
+              <pre><code>let clickCount = 0;
+document.querySelector('.target').addEventListener('click', () => {
+  clickCount++;
+  if (clickCount === 1) {
+    // 1回目: 偽のアクション
+    showFakeAction();
+  } else if (clickCount === 2) {
+    // 2回目: 透明なiframeをアクティブ化
+    activateHiddenIframe();
+  }
+});</code></pre>
+            </div>
+
+            <div class="info-box">
+              <h4>2. ドラッグ&ドロップジャッキング</h4>
+              <p>HTML5のドラッグ&ドロップAPIを悪用し、ファイルやデータを意図しない場所にドロップさせる攻撃。</p>
+              <pre><code>// 偽のドロップエリア
+<div class="fake-drop-zone">
+  ここに画像をドロップ
+</div>
+
+// 実際のドロップエリア（透明）
+<!-- 攻撃者のサイト例（実際には存在しないダミーURL） -->
+<iframe src="[REDACTED: 攻撃者サイトURL]" 
+        style="opacity: 0; position: absolute;"
+        title="攻撃者の透明なiframe例">
+</iframe></code></pre>
+            </div>
+
+            <div class="info-box">
+              <h4>3. タイミング攻撃</h4>
+              <p>UI要素を瞬間的に変更し、ユーザーが意図しない操作を実行させる攻撃。</p>
+              <pre><code>// ホバー時に瞬間的にiframeを挿入
+button.addEventListener('mouseenter', () => {
+  setTimeout(() => {
+    insertMaliciousIframe();
+  }, 100);  // 100ms後に挿入
+});
+
+button.addEventListener('click', () => {
+  // クリック時にはiframeが存在
+  // ユーザーは気づかずにiframe内をクリック
+});</code></pre>
+            </div>
+            </div>
+          </details>
+
+          <details class="accordion">
+            <summary>🌍 実世界の攻撃事例</summary>
+            <div class="accordion-content">
+            
+            <div class="info-box">
+              <h4>📦 事例1: Facebook Likejacking（2010年代）</h4>
+              <p>Facebookの「いいね」ボタンを悪用した大規模なキャンペーン。</p>
+              <ul>
+                <li><strong>手法：</strong> 魅力的なコンテンツの下に透明な「いいね」ボタンを配置</li>
+                <li><strong>結果：</strong> 数百万人が意図せずスパムページを「いいね」</li>
+                <li><strong>対応：</strong> FacebookがX-Frame-Optionsを実装</li>
+              </ul>
+            </div>
+
+            <div class="info-box">
+              <h4>💳 事例2: オンラインバンキング攻撃</h4>
+              <p>銀行サイトを標的にした送金詐欺。</p>
+              <ul>
+                <li><strong>手法：</strong> ゲームサイトに銀行の送金画面を透明なiframeで埋め込み</li>
+                <li><strong>結果：</strong> ユーザーがゲームをプレイしているつもりで送金を実行</li>
+                <li><strong>対応：</strong> 銀行が2段階認証とCSPを導入</li>
+              </ul>
+            </div>
+
+            <div class="info-box">
+              <h4>📱 事例3: モバイルアプリの権限詐取</h4>
+              <p>Android/iOSアプリ内のWebViewを悪用した攻撃。</p>
+              <ul>
+                <li><strong>手法：</strong> アプリ内ブラウザーで権限許可ボタンを隠蓽</li>
+                <li><strong>結果：</strong> カメラ、位置情報、連絡先などの権限を不正取得</li>
+                <li><strong>対応：</strong> OSレベルでの権限確認UIの改善</li>
+              </ul>
+            </div>
+            </div>
+          </details>
+
+          <details class="accordion">
+            <summary>🔍 攻撃の検出方法</summary>
+            <div class="accordion-content">
+            
+            <div class="code-example">
+              <h4>JavaScriptによる検出コード（サンプル）</h4>
+              <pre><code>// このコードを実装することで、クリックジャッキング攻撃を検出できます
+// ※ これはサンプルコードです。実際のサイトで使用する際は適切に実装してください
+
+// 1. iframe内での実行を検出する関数
+function detectClickjacking() {
+  if (window.self !== window.top) {
+    console.warn('⚠️ このページはiframe内で表示されています');
+    
+    // 親フレームの情報を取得試行
+    try {
+      const parentDomain = window.parent.location.hostname;
+      console.log('親フレーム: ' + parentDomain);
+    } catch (e) {
+      console.error('クロスオリジンのiframeです');
+    }
+    
+    return true;
+  }
+  return false;
+}
+
+// 2. 検出時の対処法の例
+if (detectClickjacking()) {
+  // 方法1: コンソールに警告を出力
+  console.error('クリックジャッキングの可能性があります');
+  
+  // 方法2: ユーザーに警告を表示
+  alert('セキュリティ警告：このページは安全でない可能性があります');
+  
+  // 方法3: ページの機能を無効化
+  document.body.style.display = 'none';
+  
+  // 方法4: 親フレームから脱出を試みる
+  try {
+    window.top.location = window.self.location;
+  } catch (e) {
+    console.error('フレームから脱出できません');
+  }
+}</code></pre>
+              <p class="note">💡 <strong>実装のポイント：</strong>このコードは&lt;script&gt;タグ内に配置し、ページ読み込み時に実行されるようにします。ただし、Frame Bustingは完全な対策ではないため、HTTPヘッダーによる対策と併用してください。</p>
+            </div>
+
+            <div class="info-box">
+              <h4>🛠️ セキュリティツールでの検査</h4>
+              <ul>
+                <li><strong>Browser DevTools:</strong> Elementsタブでiframeや透明要素を確認</li>
+                <li><strong>OWASP ZAP:</strong> 自動スキャンでクリックジャッキング脆弱性を検出</li>
+                <li><strong>Burp Suite:</strong> ClickbanditツールでPoCを作成</li>
+                <li><strong>SecurityHeaders.com:</strong> X-Frame-OptionsとCSPの設定をチェック</li>
+              </ul>
+            </div>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- 対策タブ -->
+      <div id="defense" class="tab-panel">
+        <div class="card">
+          <h2>クリックジャッキング対策</h2>
+          
+          <details class="accordion">
+            <summary>🔒 HTTPヘッダーによる対策</summary>
+            <div class="accordion-content">
+            <p>サーバー側でHTTPレスポンスヘッダーを設定することで、ブラウザーレベルでクリックジャッキングを防ぎます。</p>
+            
+            <div class="code-example">
+              <h4>1. X-Frame-Options（従来の方法）</h4>
+              <pre><code># すべてのドメインからのiframe埋め込みを拒否
+X-Frame-Options: DENY
+
+# 同一オリジンからのみ許可
+X-Frame-Options: SAMEORIGIN
+
+# 特定のドメインからのみ許可（非推奨）
+X-Frame-Options: ALLOW-FROM https://example.com</code></pre>
+              <div class="note">
+                <strong>メリット：</strong> 設定が簡単、古いブラウザーでもサポート<br>
+                <strong>デメリット：</strong> 柔軟性が低い、複数ドメイン指定不可
+              </div>
+            </div>
+
+            <div class="code-example">
+              <h4>2. Content-Security-Policy: frame-ancestors（推奨）</h4>
+              <pre><code># すべてのドメインからのiframe埋め込みを拒否
+Content-Security-Policy: frame-ancestors 'none';
+
+# 同一オリジンからのみ許可
+Content-Security-Policy: frame-ancestors 'self';
+
+# 複数のドメインを指定
+Content-Security-Policy: frame-ancestors 'self' https://trusted1.com https://trusted2.com;
+
+# ワイルドカードも使用可能
+Content-Security-Policy: frame-ancestors 'self' https://*.example.com;</code></pre>
+              <div class="note">
+                <strong>メリット：</strong> 柔軟な設定が可能、複数ドメイン指定可、CSPの一部として統合管理<br>
+                <strong>デメリット：</strong> 古いブラウザーではサポートなし
+              </div>
+            </div>
+
+            <div class="code-example">
+              <h4>実装例（Node.js Express）</h4>
+              <pre><code>// helmet.jsを使用した設定
+const helmet = require('helmet');
+
+app.use(helmet.frameguard({ action: 'deny' }));
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    frameAncestors: ["'self'"]
+  }
+}));</code></pre>
+            </div>
+            </div>
+          </details>
+
+          <details class="accordion">
+            <summary>⚡ アプリケーション側の対策</summary>
+            <div class="accordion-content">
+            <p>アプリケーションロジックでユーザーの意図を確認し、不正な操作を防ぎます。</p>
+            
+            <div class="code-example">
+              <h4>1. 重要操作の再認証</h4>
+              <pre><code>// 削除操作前にパスワードを再確認
+if (action === 'delete') {
+  requirePasswordConfirmation();
+  // または2要素認証コードを要求
+  require2FACode();
+}</code></pre>
+              <p class="note">重要な操作（削除、送金、設定変更など）の前に追加の認証ステップを挿入します。</p>
+            </div>
+
+            <div class="code-example">
+              <h4>2. CSRFトークンの実装</h4>
+              <pre><code>&lt;!-- HTMLフォーム例（送金や設定変更など重要な操作） --&gt;
+&lt;form method="POST" action="/transfer"&gt;
+  &lt;input type="hidden" name="csrf_token" value="{{ csrf_token }}"&gt;
+  &lt;input type="text" name="recipient" placeholder="送金先"&gt;
+  &lt;input type="number" name="amount" placeholder="金額"&gt;
+  &lt;button type="submit"&gt;送金する&lt;/button&gt;
+&lt;/form&gt;
+
+// サーバー側の検証（Node.js Express例）
+app.post('/transfer', (req, res) => {
+  if (req.body.csrf_token !== req.session.csrf_token) {
+    return res.status(403).send('CSRFトークンが無効です');
+  }
+  // トークンが有効な場合のみ処理を実行
+  processTransfer(req.body);
+});</code></pre>
+              <p class="note">CSRFトークンは、クロスサイトからの不正なリクエストを防ぐために、各セッションに固有のトークンを生成し、重要な操作時に検証します。クリックジャッキングと組み合わせた攻撃も防げます。</p>
+            </div>
+
+            <div class="code-example">
+              <h4>3. Frame Busting（補助的対策）</h4>
+              <pre><code>// JavaScriptによるiframe検出
+if (window.top !== window.self) {
+  // iframe内で実行されている場合
+  window.top.location = window.self.location;
+  // または機能を無効化
+  document.body.style.display = 'none';
+  alert('このページは直接アクセスしてください');
+}</code></pre>
+              <p class="note">⚠️ 注意：sandbox属性やJavaScript無効化で回避可能なため、単独での使用は推奨されません。</p>
+            </div>
+
+            <div class="code-example">
+              <h4>4. 視覚的な対策</h4>
+              <pre><code>/* CSSで重要ボタンを強調 */
+.danger-button {
+  position: relative;
+  z-index: 9999; /* 最前面に配置 */
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+  animation: pulse 1s infinite;
+}
+
+/* 確認モーダルを画面中央に固定 */
+.confirmation-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}</code></pre>
+            </div>
+            </div>
+          </details>
+
+          <details class="accordion">
+            <summary>🎯 実装のベストプラクティス</summary>
+            <div class="accordion-content">
+            <p>セキュリティは多層防御が重要です。以下の対策を組み合わせて実装しましょう。</p>
+            
+            <div class="info-box">
+              <h4>📋 実装チェックリスト</h4>
+              <table class="checklist-table">
+                <tr>
+                  <th>優先度</th>
+                  <th>対策</th>
+                  <th>実装難易度</th>
+                  <th>効果</th>
+                </tr>
+                <tr>
+                  <td>🔴 必須</td>
+                  <td>CSP frame-ancestorsヘッダーの設定</td>
+                  <td>低</td>
+                  <td>高</td>
+                </tr>
+                <tr>
+                  <td>🔴 必須</td>
+                  <td>X-Frame-Optionsヘッダー（後方互換）</td>
+                  <td>低</td>
+                  <td>高</td>
+                </tr>
+                <tr>
+                  <td>🟡 推奨</td>
+                  <td>CSRFトークンの実装</td>
+                  <td>中</td>
+                  <td>高</td>
+                </tr>
+                <tr>
+                  <td>🟡 推奨</td>
+                  <td>重要操作の再認証</td>
+                  <td>中</td>
+                  <td>高</td>
+                </tr>
+                <tr>
+                  <td>🟢 補助</td>
+                  <td>SameSite Cookieの設定</td>
+                  <td>低</td>
+                  <td>中</td>
+                </tr>
+                <tr>
+                  <td>🟢 補助</td>
+                  <td>Frame Bustingスクリプト</td>
+                  <td>低</td>
+                  <td>低</td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="info-box">
+              <h4>⚙️ 設定例（Apache）</h4>
+              <pre><code># .htaccessファイル
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set Content-Security-Policy "frame-ancestors 'self'"</code></pre>
+            </div>
+
+            <div class="info-box">
+              <h4>⚙️ 設定例（Nginx）</h4>
+              <pre><code># nginx.conf
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header Content-Security-Policy "frame-ancestors 'self'" always;</code></pre>
+            </div>
+
+            <div class="info-box">
+              <h4>🔍 テスト方法</h4>
+              <ol>
+                <li><strong>ブラウザーの開発者ツール：</strong> Networkタブでレスポンスヘッダーを確認</li>
+                <li><strong>セキュリティスキャナー：</strong> OWASP ZAPやBurp Suiteで脆弱性診断</li>
+                <li><strong>手動テスト：</strong> 実際にiframeで埋め込みを試みる</li>
+                <li><strong>オンラインツール：</strong> securityheaders.comでヘッダー設定を評価</li>
+              </ol>
+            </div>
+            </div>
+          </details>
+
+          <details class="accordion">
+            <summary>📚 追加の学習リソース</summary>
+            <div class="accordion-content">
+            <ul>
+              <li><strong>OWASP Clickjacking Defense Cheat Sheet：</strong> 包括的な防御ガイド</li>
+              <li><strong>MDN Web Docs：</strong> X-Frame-OptionsとCSPの詳細仕様</li>
+              <li><strong>PortSwigger Web Security Academy：</strong> 実践的な演習問題</li>
+              <li><strong>IPA（情報処理推進機構）：</strong> 日本語のセキュリティガイドライン</li>
+            </ul>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer">
+      🔗 GitHubリポジトリはこちら（ <a href="https://github.com/ipusiron/invisible-clicks" target="_blank" rel="noopener noreferrer">ipusiron/invisible-clicks</a> ）
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

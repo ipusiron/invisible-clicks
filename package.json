@@ -1,0 +1,33 @@
+{
+  "name": "invisible-clicks",
+  "version": "1.0.0",
+  "description": "Educational demo tool to experience and learn clickjacking attacks and defenses.",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host --port 4173"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipusiron/invisible-clicks.git"
+  },
+  "keywords": [
+    "security",
+    "clickjacking",
+    "education",
+    "typescript",
+    "vite"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ipusiron/invisible-clicks/issues"
+  },
+  "homepage": "https://github.com/ipusiron/invisible-clicks#readme",
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0"
+  }
+}
