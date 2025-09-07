@@ -17,6 +17,9 @@ demo: https://ipusiron.github.io/invisible-clicks/
 ![GitHub license](https://img.shields.io/github/license/ipusiron/invisible-clicks)
 [![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-blue?logo=github)](https://ipusiron.github.io/invisible-clicks/)
 
+**Day058 - 生成AIで作るセキュリティツール100**
+
+
 **Invisible Clicks**は、ブラウザーだけで**クリックジャッキング**を安全に体験できる教育用デモツールです。
 
 透明オーバーレイやiframeの上乗せを模擬し、意図しない危険操作が発火する仕組みと対策を学べます。
