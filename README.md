@@ -121,6 +121,7 @@ invisible-clicks/
 ├── vite.config.ts           # Viteビルド設定
 ├── tsconfig.json            # TypeScript設定
 ├── package.json             # 依存関係とスクリプト
+├── package-lock.json        # npm install 時に自動生成される依存関係の固定ファイル
 ├── CLAUDE.md                # Claude Code用プロジェクト指示
 ├── DEVELOPMENT.md           # 開発メモと技術的発見
 ├── CLICKJACKING-GUIDE.md    # クリックジャッキング技術解説ガイド
