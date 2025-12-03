@@ -1,11 +1,34 @@
 <!--
 ---
-title: Invisible Clicks
-category: web-security
-difficulty: 1
-description: Experience clickjacking safely in the browser and learn common defenses.
-tags: [clickjacking, web-security, education, typescript]
-demo: https://ipusiron.github.io/invisible-clicks/
+id: day058
+slug: invisible-clicks
+
+title: "Invisible Clicks"
+
+subtitle_ja: "クリックジャッキング攻撃体験ツール"
+subtitle_en: "Clickjacking Attack Experience Tool"
+
+description_ja: "ブラウザーだけでクリックジャッキングを安全に体験できる教育用デモツール。透明オーバーレイやiframeの上乗せを模擬し、意図しない危険操作が発火する仕組みと対策を学べます。"
+description_en: "An educational demo tool to safely experience clickjacking in the browser. Simulates transparent overlays and iframe embedding to learn how unintended dangerous operations are triggered and how to defend against them."
+
+category_ja:
+  - Webセキュリティ
+category_en:
+  - Web Security
+
+difficulty: 3
+
+tags:
+  - clickjacking
+  - web-security
+  - education
+  - typescript
+  - vite
+
+repo_url: "https://github.com/ipusiron/invisible-clicks"
+demo_url: "https://ipusiron.github.io/invisible-clicks/"
+
+hub: true
 ---
 -->
 
