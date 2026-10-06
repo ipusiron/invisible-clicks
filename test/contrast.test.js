@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const css = readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+test('ページヘッダーだけを中央揃えにし、本文には波及させない', () => {
+  assert.match(css, /(?:^|\n)header\s*\{[^}]*text-align:\s*center\s*;/);
+  assert.doesNotMatch(css, /(?:^|\n)(?:body|main|\.container)\s*\{[^}]*text-align:\s*center/);
+});
+
 const root = css.match(/:root\s*\{([^}]+)\}/)?.[1];
 assert.ok(root, 'The palette must remain declared in :root.');
 const colors = Object.fromEntries([...root.matchAll(/--([\w-]+)\s*:\s*(#[\da-f]{3,8})\s*;/gi)]
