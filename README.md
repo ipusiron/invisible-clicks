@@ -32,6 +32,8 @@ hub: true
 ---
 -->
 
+[English](README.en.md) · 日本語
+
 # Invisible Clicks - クリックジャッキング攻撃体験ツール
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/ipusiron/invisible-clicks?style=social)
@@ -45,6 +47,8 @@ hub: true
 Invisible Clicksは、ブラウザーでクリックジャッキングの仕組みを学ぶ教育用デモツールです。
 透明なクリック対象の重なりとiframe方式の模式図で、見える操作とクリック先の違いを確かめられます。
 操作結果はログ表示だけで、実データの削除や外部iframeの読み込みは行いません。
+
+画面とスクリーンショットは現在日本語です。英語の説明はREADME.en.mdに用意しています。
 
 ---
 
@@ -207,6 +211,7 @@ invisible-clicks/                 # プロジェクトルート
 │   ├── state.test.js            # モード変更と保留処理の取消
 │   ├── html.test.js             # 教材HTMLとCSPの構造
 │   ├── readme.test.js           # 文書と実装の整合性
+│   ├── readme-en.test.js        # 日英READMEの整合性
 │   ├── contrast.test.js         # 文字色と背景色の組み合わせ
 │   ├── format.test.js           # ファイルの書式
 │   └── ui.test.js               # UI操作と表示状態
@@ -230,7 +235,8 @@ invisible-clicks/                 # プロジェクトルート
 ├── DEVELOPMENT.md               # 保守条件と検証手順
 ├── CLICKJACKING-GUIDE.md         # 攻撃の仕組みと防御策の解説
 ├── LICENSE                      # MITライセンス
-└── README.md                    # このファイル
+├── README.md                    # 日本語の説明
+└── README.en.md                 # 英語の説明
 ```
 
 ---
