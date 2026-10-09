@@ -83,7 +83,7 @@ export function loadUI() {
   window.setTimeout = callback => { timers.set(++nextId, callback); return nextId; };
   window.clearTimeout = id => timers.delete(id);
   const main = readFileSync(new URL('../../src/main.ts', import.meta.url), 'utf8');
-  const source = stripTypeScriptTypes(main).replace(/^import[^\n]+\n/, '');
+  const source = stripTypeScriptTypes(main).replace(/^import[^\n]+\n/gm, '');
   vm.runInNewContext(source, { activationFor, createDemoState, MAX_LOG_ENTRIES, document, window, Element, Date });
   const get = id => elements.get(id);
   const click = (id, detail = 1) => get(id).dispatch('click', { detail });
