@@ -212,7 +212,9 @@ invisible-clicks/                 # プロジェクトルート
 │       └── test.yml             # Node.jsでの回帰テスト
 ├── src/                         # TypeScriptのソース
 │   ├── main.ts                  # タブ、操作、ログの表示制御
-│   └── demo-state.ts            # モードと保留中の模擬操作の管理
+│   ├── demo-state.ts            # モードと保留中の模擬操作の管理
+│   ├── i18n.ts                  # 画面の日英切り替え
+│   └── messages.json            # 画面文言の日英辞書
 ├── test/                        # Node.js標準の回帰テスト
 │   ├── support/                 # テストの補助処理
 │   │   └── dom.js               # DOMスタブとUIテストの実行補助

@@ -7,23 +7,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Invisible Clicks - Clickjacking Demo</title>
   <link rel="icon" href="data:," />
-  <script type="module" crossorigin src="/invisible-clicks/assets/index-DOnGbfU2.js"></script>
-  <link rel="stylesheet" crossorigin href="/invisible-clicks/assets/index-DjER-QUP.css">
+  <script type="module" crossorigin src="/invisible-clicks/assets/index-DV3rHSQ8.js"></script>
+  <link rel="stylesheet" crossorigin href="/invisible-clicks/assets/index-s5fuIV3o.css">
 </head>
 <body>
   <header class="container">
+    <button type="button" id="langToggle" class="lang-toggle" aria-label="Switch language">EN</button>
     <h1>Invisible Clicks</h1>
-    <p class="subtitle">クリックジャッキングを体験・理解するための教育用デモです</p>
+    <p class="subtitle" data-i18n="ui.subtitle">クリックジャッキングを体験・理解するための教育用デモです</p>
   </header>
 
   <main class="container">
-    <noscript><p class="info-box">タブと体験デモの操作にはJavaScriptが必要です。HTTPサーバーから開き、JavaScriptを有効にしてください。</p></noscript>
+    <noscript><p class="info-box" data-i18n="ui.noscript">タブと体験デモの操作にはJavaScriptが必要です。HTTPサーバーから開き、JavaScriptを有効にしてください。</p></noscript>
     <!-- タブナビゲーション -->
     <div class="tabs" role="tablist" aria-label="学習内容">
-      <button type="button" id="tab-learn" class="tab-button active" data-tab="learn" role="tab" aria-controls="learn" aria-selected="true" tabindex="0">📚 基礎学習</button>
-      <button type="button" id="tab-demo" class="tab-button" data-tab="demo" role="tab" aria-controls="demo" aria-selected="false" tabindex="-1">🎯 攻撃体験デモ</button>
-      <button type="button" id="tab-theory" class="tab-button" data-tab="theory" role="tab" aria-controls="theory" aria-selected="false" tabindex="-1">🧠 攻撃理論</button>
-      <button type="button" id="tab-defense" class="tab-button" data-tab="defense" role="tab" aria-controls="defense" aria-selected="false" tabindex="-1">🛡️ 対策</button>
+      <button type="button" id="tab-learn" class="tab-button active" data-tab="learn" role="tab" aria-controls="learn" aria-selected="true" tabindex="0" data-i18n="tab.learn">📚 基礎学習</button>
+      <button type="button" id="tab-demo" class="tab-button" data-tab="demo" role="tab" aria-controls="demo" aria-selected="false" tabindex="-1" data-i18n="tab.demo">🎯 攻撃体験デモ</button>
+      <button type="button" id="tab-theory" class="tab-button" data-tab="theory" role="tab" aria-controls="theory" aria-selected="false" tabindex="-1" data-i18n="tab.theory">🧠 攻撃理論</button>
+      <button type="button" id="tab-defense" class="tab-button" data-tab="defense" role="tab" aria-controls="defense" aria-selected="false" tabindex="-1" data-i18n="tab.defense">🛡️ 対策</button>
     </div>
 
     <!-- タブコンテンツ -->
@@ -31,10 +32,10 @@
       <!-- 基礎学習タブ -->
       <div id="learn" class="tab-panel active" role="tabpanel" aria-labelledby="tab-learn" tabindex="0">
         <div class="card">
-          <h2>クリックジャッキングとは？</h2>
-          <p>クリックジャッキング（Clickjacking）は、Webサイトのユーザーインターフェースを悪用する攻撃手法です。</p>
+          <h2 data-i18n="learn.h2">クリックジャッキングとは？</h2>
+          <p data-i18n="learn.intro">クリックジャッキング（Clickjacking）は、Webサイトのユーザーインターフェースを悪用する攻撃手法です。</p>
 
-          <div class="info-box">
+          <div class="info-box" data-i18n-html="learn.box1">
             <h3>🎭 攻撃の仕組み</h3>
             <p>攻撃者は透明または不透明なレイヤーを使用して、ユーザーが意図しない操作を実行させます。</p>
             <ul>
@@ -44,7 +45,7 @@
             </ul>
           </div>
 
-          <div class="info-box">
+          <div class="info-box" data-i18n-html="learn.box2">
             <h3>⚠️ 想定される被害</h3>
             <p>埋め込みが許可され、必要な認証や操作条件を満たしている場合の例です。すべてのサイトで成立するわけではありません。</p>
             <ul>
@@ -55,7 +56,7 @@
             <p>ブラウザーやOSの権限確認画面はページ内のボタンとは別です。透明なHTML要素を重ねるだけで、カメラやマイクを無条件に許可できるとは限りません。本ツールは権限を要求せず、カメラやマイクを使いません。</p>
           </div>
 
-          <div class="info-box">
+          <div class="info-box" data-i18n-html="learn.box3">
             <h3>📊 攻撃の種類</h3>
             <ul>
               <li>古典的クリックジャッキング（Classic Clickjacking）：透明なiframeを使用</li>
@@ -70,41 +71,41 @@
       <!-- 攻撃体験デモタブ -->
       <div id="demo" class="tab-panel" role="tabpanel" aria-labelledby="tab-demo" tabindex="0" hidden>
         <div class="card demo-note">
-          <h2>💡 デモの使い方</h2>
-          <ol>
+          <h2 data-i18n="demo.h2">💡 デモの使い方</h2>
+          <ol data-i18n-html="demo.steps">
             <li>「偽UI」の「👍 いいね！」をクリックまたはタップしてください。</li>
             <li>透明オーバーレイでは、上に重ねた透明ボタンがクリックを受け取り、300ms後に削除を模したログを表示します。</li>
             <li>ラジオボタンで方式を切り替えてください。「攻撃を無効化」は偽UIを隠し、正規UIだけを残します。</li>
           </ol>
-          <p class="note">これは同じページ内の要素による模式デモです。実際のiframe、外部サイト、秘密情報の削除は使わず、防御ヘッダーの有効性も検証しません。正規UIは比較用に常時表示します。</p>
-          <p class="note">透明ボタンはポインター操作専用です。どちらの方式でも、Tabキーで「いいね！」に移動してEnterまたはSpaceで操作すると、通常の「いいね」のログを表示します。これはキーボード操作一般の安全性を保証するものではありません。</p>
-          <p class="note">方式変更、タブ移動、「ログを消す」で、まだ表示されていない結果を取り消します。実際のサイトで成立済みの操作を取り消す機能ではありません。</p>
+          <p class="note" data-i18n="demo.note1">これは同じページ内の要素による模式デモです。実際のiframe、外部サイト、秘密情報の削除は使わず、防御ヘッダーの有効性も検証しません。正規UIは比較用に常時表示します。</p>
+          <p class="note" data-i18n="demo.note2">透明ボタンはポインター操作専用です。どちらの方式でも、Tabキーで「いいね！」に移動してEnterまたはSpaceで操作すると、通常の「いいね」のログを表示します。これはキーボード操作一般の安全性を保証するものではありません。</p>
+          <p class="note" data-i18n="demo.note3">方式変更、タブ移動、「ログを消す」で、まだ表示されていない結果を取り消します。実際のサイトで成立済みの操作を取り消す機能ではありません。</p>
         </div>
 
         <fieldset class="controls">
-          <legend>デモの方式</legend>
+          <legend data-i18n="demo.legend">デモの方式</legend>
           <label class="toggle">
             <input type="radio" name="attackMethod" id="attackOverlay" checked />
-            <span>🔴 透明オーバーレイ攻撃</span>
+            <span data-i18n="demo.radioOverlay">🔴 透明オーバーレイ攻撃</span>
           </label>
           <label class="toggle">
             <input type="radio" name="attackMethod" id="attackFrame" />
-            <span>📺 iframe埋め込み（模式デモ）</span>
+            <span data-i18n="demo.radioFrame">📺 iframe埋め込み（模式デモ）</span>
           </label>
           <label class="toggle">
             <input type="radio" name="attackMethod" id="attackOff" />
-            <span>⚫ 攻撃を無効化</span>
+            <span data-i18n="demo.radioOff">⚫ 攻撃を無効化</span>
           </label>
         </fieldset>
 
         <div class="grid">
           <div class="card" id="attackerCard">
-            <h2>📱 偽UI：利用者に見える部分</h2>
-            <p>一見普通のソーシャルメディアのUI。ユーザーは無害な「いいね」を押したつもりですが...</p>
+            <h2 data-i18n="demo.attackerH2">📱 偽UI：利用者に見える部分</h2>
+            <p data-i18n="demo.attackerP">一見普通のソーシャルメディアのUI。ユーザーは無害な「いいね」を押したつもりですが...</p>
 
             <div class="attacker-area">
               <div class="click-target">
-                <button type="button" id="fake-like" class="btn">👍 いいね！</button>
+                <button type="button" id="fake-like" class="btn" data-i18n="demo.fakeLike">👍 いいね！</button>
                 <!-- 同じ領域に重なる、ポインター操作専用の透明ボタン -->
                 <button type="button" id="invisible-overlay" tabindex="-1" aria-hidden="true" disabled hidden></button>
               </div>
@@ -112,17 +113,17 @@
           </div>
 
           <div class="card">
-            <h2>🏦 正規UI：操作対象の模式表示</h2>
-            <p>実際の攻撃で透明化され得る操作対象を、ここでは比較のために表示しています。ボタンを直接押しても、ログが出るだけです。</p>
+            <h2 data-i18n="demo.victimH2">🏦 正規UI：操作対象の模式表示</h2>
+            <p data-i18n="demo.victimP">実際の攻撃で透明化され得る操作対象を、ここでは比較のために表示しています。ボタンを直接押しても、ログが出るだけです。</p>
 
             <div class="victim-area" id="victimArea">
-              <button type="button" id="danger" class="btn danger">⚠ 秘密情報を削除（模擬）</button>
+              <button type="button" id="danger" class="btn danger" data-i18n="demo.dangerBtn">⚠ 秘密情報を削除（模擬）</button>
             </div>
 
             <div id="frameWrap" class="frame-wrap hidden" hidden>
-              <div class="frame-header">iframe内の操作対象を表す模式図（実体はdiv）</div>
+              <div class="frame-header" data-i18n="demo.frameHeader">iframe内の操作対象を表す模式図（実体はdiv）</div>
               <div class="frame-body">
-                <button type="button" class="btn danger" data-frame="danger">⚠ 秘密情報を削除（模式図）</button>
+                <button type="button" class="btn danger" data-frame="danger" data-i18n="demo.frameDangerBtn">⚠ 秘密情報を削除（模式図）</button>
               </div>
             </div>
 
@@ -130,11 +131,11 @@
         </div>
         <section aria-labelledby="log-heading">
           <div class="log-toolbar">
-            <h2 id="log-heading">操作ログ</h2>
-            <button type="button" id="clear-log" class="btn">ログを消す</button>
+            <h2 id="log-heading" data-i18n="demo.logHeading">操作ログ</h2>
+            <button type="button" id="clear-log" class="btn" data-i18n="demo.clearLogBtn">ログを消す</button>
             <span id="log-status" role="status" aria-live="polite"></span>
           </div>
-          <p class="note" id="log-note">最新100件を表示します。新しい行は下に追加されます。ログはこのページ内だけに保持され、再読み込みで消えます。</p>
+          <p class="note" id="log-note" data-i18n="demo.logNote">最新100件を表示します。新しい行は下に追加されます。ログはこのページ内だけに保持され、再読み込みで消えます。</p>
           <div class="log" id="log" role="log" aria-live="polite" aria-relevant="additions" aria-labelledby="log-heading" aria-describedby="log-note"></div>
         </section>
       </div>
@@ -142,11 +143,11 @@
       <!-- 攻撃理論タブ -->
       <div id="theory" class="tab-panel" role="tabpanel" aria-labelledby="tab-theory" tabindex="0" hidden>
         <div class="card">
-          <h2>クリックジャッキング攻撃の理論</h2>
+          <h2 data-i18n="theory.h2">クリックジャッキング攻撃の理論</h2>
 
           <details class="accordion">
-            <summary>🔬 技術的メカニズム</summary>
-            <div class="accordion-content">
+            <summary data-i18n="theory.sum1">🔬 技術的メカニズム</summary>
+            <div class="accordion-content" data-i18n-html="theory.c1">
             <p>クリックジャッキングは、見えている操作と実際にクリックを受ける対象の食い違いを利用します。</p>
 
             <div class="code-example">
@@ -212,8 +213,8 @@
           </details>
 
           <details class="accordion">
-            <summary>🎭 高度な攻撃テクニック</summary>
-            <div class="accordion-content">
+            <summary data-i18n="theory.sum2">🎭 高度な攻撃テクニック</summary>
+            <div class="accordion-content" data-i18n-html="theory.c2">
 
             <div class="info-box">
               <h4>1. 2段階操作の概念例</h4>
@@ -268,8 +269,8 @@ button.addEventListener('mouseenter', () => {
           </details>
 
           <details class="accordion">
-            <summary>🌍 想定シナリオと成立条件</summary>
-            <div class="accordion-content">
+            <summary data-i18n="theory.sum3">🌍 想定シナリオと成立条件</summary>
+            <div class="accordion-content" data-i18n-html="theory.c3">
             <p>以下は仕組みを考えるための想定例であり、特定のサービスで発生した事件や被害件数の報告ではありません。</p>
 
             <div class="info-box">
@@ -301,8 +302,8 @@ button.addEventListener('mouseenter', () => {
           </details>
 
           <details class="accordion">
-            <summary>🔍 埋め込み状態の確認と限界</summary>
-            <div class="accordion-content">
+            <summary data-i18n="theory.sum4">🔍 埋め込み状態の確認と限界</summary>
+            <div class="accordion-content" data-i18n-html="theory.c4">
 
             <div class="code-example">
               <h4>JavaScriptによる状態確認（表示専用サンプル）</h4>
@@ -331,11 +332,11 @@ if (isEmbedded) {
       <!-- 対策タブ -->
       <div id="defense" class="tab-panel" role="tabpanel" aria-labelledby="tab-defense" tabindex="0" hidden>
         <div class="card">
-          <h2>クリックジャッキング対策</h2>
+          <h2 data-i18n="defense.h2">クリックジャッキング対策</h2>
 
           <details class="accordion">
-            <summary>🔒 HTTPヘッダーによる対策</summary>
-            <div class="accordion-content">
+            <summary data-i18n="defense.sum1">🔒 HTTPヘッダーによる対策</summary>
+            <div class="accordion-content" data-i18n-html="defense.c1">
             <p>保護対象のページのHTTPレスポンスヘッダーで、どの親ページから埋め込めるかを制限します。以下は別々の設定候補です。サービスの埋め込み方針に合うものを選びます。</p>
             <p class="note">frame-ancestorsとX-Frame-OptionsはHTTPレスポンスヘッダー専用です。
             HTMLのmetaに書いても効きません。
@@ -393,8 +394,8 @@ app.use((req, res, next) =&gt; {
           </details>
 
           <details class="accordion">
-            <summary>⚡ アプリケーション側の対策</summary>
-            <div class="accordion-content">
+            <summary data-i18n="defense.sum2">⚡ アプリケーション側の対策</summary>
+            <div class="accordion-content" data-i18n-html="defense.c2">
             <p>埋め込み制限を基本とし、操作内容の確認や認証を補助として組み合わせます。個々の対策だけで、すべてのクリック誘導を防げるわけではありません。</p>
 
             <div class="code-example">
@@ -457,8 +458,8 @@ app.post('/transfer',
           </details>
 
           <details class="accordion">
-            <summary>🎯 実装のベストプラクティス</summary>
-            <div class="accordion-content">
+            <summary data-i18n="defense.sum3">🎯 実装のベストプラクティス</summary>
+            <div class="accordion-content" data-i18n-html="defense.c3">
             <p>セキュリティは多層防御が重要です。以下の対策を組み合わせて実装しましょう。</p>
 
             <div class="info-box">
@@ -538,8 +539,8 @@ add_header Content-Security-Policy "frame-ancestors 'self'" always;</code></pre>
           </details>
 
           <details class="accordion">
-            <summary>📚 追加の学習リソース</summary>
-            <div class="accordion-content">
+            <summary data-i18n="defense.sum4">📚 追加の学習リソース</summary>
+            <div class="accordion-content" data-i18n-html="defense.c4">
             <ul>
               <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html" target="_blank" rel="noopener noreferrer">OWASP Clickjacking Defense Cheat Sheet</a>：防御策と限界</li>
               <li>
@@ -558,7 +559,7 @@ add_header Content-Security-Policy "frame-ancestors 'self'" always;</code></pre>
 
   <footer>
     <div class="footer">
-      🔗 GitHubリポジトリーはこちら（ <a href="https://github.com/ipusiron/invisible-clicks" target="_blank" rel="noopener noreferrer">ipusiron/invisible-clicks</a> ）
+      <span data-i18n="ui.footerRepo">🔗 GitHubリポジトリーはこちら</span>（ <a href="https://github.com/ipusiron/invisible-clicks" target="_blank" rel="noopener noreferrer">ipusiron/invisible-clicks</a> ）
     </div>
   </footer>
 

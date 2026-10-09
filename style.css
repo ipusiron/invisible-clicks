@@ -16,7 +16,7 @@ body{
     "Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;
 }
 .container{ width:min(1100px,92%); margin-inline:auto; }
-header{ padding:32px 0 12px; text-align:center; }
+header{ padding:32px 0 12px; text-align:center; position:relative; }
 h1{ margin:0 0 8px; font-size:32px; font-weight:700; color:var(--text); }
 .subtitle{ margin:0; color:var(--muted); font-size:16px; line-height:1.5; }
 
@@ -346,3 +346,11 @@ pre code{
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
 }
+
+/* 言語トグル（日英） */
+.lang-toggle{
+  position:absolute; top:16px; right:16px; appearance:none;
+  border:1px solid var(--border); background:var(--card); color:var(--text);
+  border-radius:16px; padding:6px 12px; font-size:13px; cursor:pointer;
+}
+.lang-toggle:hover{ background:var(--bg); }
