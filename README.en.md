@@ -97,6 +97,14 @@ For exercises using real iframes, see the [PortSwigger Web Security Academy clic
 
 ## 🎯 Use cases
 
+Ways of using this tool in particular
+
+- Learning why a button cannot be clicked (debugging web pages): in transparent overlay mode, the click goes not to the visible “👍 いいね！” (Like) button but to the transparent element placed over it. It is the same mechanism as the common case where "a button does not respond" on a web page because a transparent element or an element with wide padding sits on top of it, and you can confirm that selecting the element in the browser's developer tools reveals what is on top.
+- Seeing how the browser tells ways of pressing apart (web development and accessibility): pressing the same Like button with a mouse or by touch is caught by the transparent element, while pressing it with the keyboard (Tab and Enter) is logged as a normal Like. The tool treats a click as a pointer action when the click event's detail is 1 or more or the input type is mouse, touch or pen, and as a keyboard action otherwise (touch can also deliver a click with detail 0, so the input type is checked too).
+- Looking at a design that discards results arriving late (programming classes, asynchronous processing): the simulated result appears after 300 ms, but if you change the mode, move to another tab or clear the log before then, the scheduled result is not shown. Each scheduled result notes a generation number and is discarded if the number has changed just before display, the same idea used to keep old results from overwriting newer ones, for example in search suggestions.
+
+General uses
+
 - Classes and self-study: compare visible buttons with the elements receiving clicks, and observe how transparent elements can remain interactive.
 - UI design and internal training: explain mouse, touch, and keyboard differences. This is not a tool for assessing a real service's vulnerabilities.
 - Learning about internet use at home: use the built-in mock screens to explore cases where an apparent action differs from its result.

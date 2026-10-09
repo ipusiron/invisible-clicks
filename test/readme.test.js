@@ -212,3 +212,25 @@ test('CIはpushとPRでNode22を用い、依存インストールなしでnpm te
   assert.match(workflow, /^      - run: npm test\s*$/m);
   assert.doesNotMatch(workflow, /npm (?:install|ci)|continue-on-error|if:\s*(?:false|\$\{\{\s*false)/);
 });
+
+test('use-case examples unique to this tool match the demo state', async () => {
+  const { activationFor, createDemoState } = await import('../src/demo-state.ts');
+  const en = read('README.en.md');
+  assert.deepEqual([activationFor(0), activationFor(1), activationFor(0, 'touch'), activationFor(0, 'pen'), activationFor(2, 'mouse')],
+    ['keyboard', 'pointer', 'pointer', 'pointer', 'pointer']);
+  const events = [];
+  const timers = [];
+  const demo = createDemoState({ schedule: (fn, ms) => { timers.push([fn, ms]); return timers.length; }, cancel: () => {}, emit: e => events.push(e.type) });
+  demo.setActive(true);
+  assert.equal(demo.overlay('pointer'), true);
+  assert.equal(timers[0][1], DELAY_MS);
+  demo.setMode('frame');
+  timers[0][0]();
+  assert.ok(!events.includes('danger'));
+  demo.setMode('overlay');
+  demo.overlay('pointer');
+  timers[1][0]();
+  assert.equal(events.at(-1), 'danger');
+  assert.equal(demo.overlay('keyboard'), false);
+  assert.ok(readme.includes(`模擬結果は${DELAY_MS}ms後`) && en.includes(`after ${DELAY_MS} ms`));
+});
