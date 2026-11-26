@@ -44,7 +44,7 @@ test('READMEの固定メタデータキー、Day ID、URL、ブロック配列�
   assert.equal(data.title, 'Invisible Clicks');
   assert.equal(data.repo_url, 'https://github.com/ipusiron/invisible-clicks');
   assert.equal(data.demo_url, 'https://ipusiron.github.io/invisible-clicks/');
-  assert.equal(data.difficulty, '3');
+  assert.equal(data.difficulty, '2');
   assert.equal(data.hub, 'true');
   assert.deepEqual(data.category_ja, ['Webセキュリティ']);
   assert.deepEqual(data.category_en, ['Web Security']);
